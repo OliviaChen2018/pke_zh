@@ -148,17 +148,17 @@ class PositionRank(SingleRank):
 
         # compute the word scores using biased random walk
         w = nx.pagerank(G=self.graph,
-                        # alpha=0.85,
+                        # alpha=0.85, # ori
                         alpha=0.7,  # alpha越小，抽词的概率值两极分化会越大
                         tol=0.001,
-                        # tol=0.0001,
+                        # tol=0.0001, # ori
                         personalization=self.positions,
                         weight='weight')
 
         # loop through the candidates
         self.candidate_weight_norm(w, normalized)
 
-    def extract(self, input_file_or_string, n_best=10, pos=None, **kwargs):
+    def extract(self, input_file_or_string, n_best=10, pos=None, window = 10, maximum_word_number = 3, **kwargs):
         keyphrases = []
         if not input_file_or_string:
             return keyphrases
@@ -170,9 +170,10 @@ class PositionRank(SingleRank):
         # 3. load the content of the document.
         self.load_document(input=input_file_or_string, language='zh', normalization=None)
         # 4. select the noun phrases up to 3 words as keyphrase candidates.
-        self.candidate_selection(pos=pos, maximum_word_number=3)
+        self.candidate_selection(pos=pos, maximum_word_number=maximum_word_number) 
+        # self.candidate_selection(pos=pos, maximum_word_number=3) # ori
         if not self.candidates:
             return keyphrases
-        self.candidate_weighting(window=10, pos=pos)
+        self.candidate_weighting(window=window, pos=pos)
         keyphrases = self.get_n_best(n=n_best)
         return keyphrases
