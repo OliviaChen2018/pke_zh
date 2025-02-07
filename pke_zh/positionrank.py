@@ -148,8 +148,10 @@ class PositionRank(SingleRank):
 
         # compute the word scores using biased random walk
         w = nx.pagerank(G=self.graph,
-                        alpha=0.85,
-                        tol=0.0001,
+                        # alpha=0.85,
+                        alpha=0.7,  # alpha越小，抽词的概率值两极分化会越大
+                        tol=0.001,
+                        # tol=0.0001,
                         personalization=self.positions,
                         weight='weight')
 
