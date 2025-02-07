@@ -218,7 +218,8 @@ class BaseKeywordExtractModel(object):
             best = self.redundancy_removal_best(best, n)
 
         # get the list of best candidates as (lexical form, weight) tuples
-        n_best = [(u, self.weights[u]) for u in best[:min(n, len(best))]]
+        n_best = [(u, self.weights[u]) for u in best[:min(n, len(best))] if len(u.replace(' ', '')) > 1]
+        # n_best = [(u, self.weights[u]) for u in best[:min(n, len(best))]]
 
         # replace with surface forms if no stemming
         # when used in KPRank, self.candidates is a list.
