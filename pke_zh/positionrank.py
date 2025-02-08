@@ -159,6 +159,10 @@ class PositionRank(SingleRank):
         self.candidate_weight_norm(w, normalized)
 
     def extract(self, input_file_or_string, n_best=10, pos=None, window = 10, maximum_word_number = 3, **kwargs):
+      '''
+      调用的时候可以指定词性pos，并调整n_best指定保留的关键词数量：
+      extracted_word = PositionRank_m.extract(content, n_best=100000, pos = {'n', 'a', 'r'}, window=10, maximum_word_number = 3)
+      '''
         keyphrases = []
         if not input_file_or_string:
             return keyphrases
